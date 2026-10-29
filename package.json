@@ -1,0 +1,45 @@
+{
+  "name": "dsh-books",
+  "version": "1.0.0",
+  "description": "给 DSH agent 的只读书架：按章读电子书、全文搜索、带总开关（MCP 工具）",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "server.mjs",
+    "cordis.patch.yml",
+    "scripts",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "setup": "node scripts/install.mjs",
+    "selftest": "node scripts/selftest.mjs",
+    "import-book": "node scripts/import-book.mjs",
+    "import-comic": "node scripts/import-comic.mjs"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "mcp",
+    "books",
+    "ebook"
+  ],
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^4.4.3"
+  },
+  "license": "MIT"
+}

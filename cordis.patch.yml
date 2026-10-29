@@ -1,0 +1,10 @@
+# 书架 MCP 注册（由 scripts/install.mjs 生成，勿手工改）
+- insert:
+    - id: mcp-books
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: books
+        transport: stdio
+        command: "C:\\Program Files\\nodejs\\node.exe"
+        args:
+          - "F:\\dsh\\plugins\\dsh-books\\server.mjs"

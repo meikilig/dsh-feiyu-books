@@ -1,0 +1,8 @@
+node_modules/
+npm-debug.log*
+*.log
+.DS_Store
+Thumbs.db
+
+# install.mjs 会把 cordis.patch.yml 改成本机绝对路径 —— 那份不要提交
+cordis.patch.local.yml
