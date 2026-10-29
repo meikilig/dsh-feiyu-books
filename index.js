@@ -14,7 +14,7 @@ export function apply(ctx) {
   // 不碰 ctx.webServer / ctx.tools，避免在不同 DSH 版本里因为缺服务而激活失败。
   try {
     const logger = ctx?.logger ?? console
-    logger.info?.('[dsh-books] 书架插件已装载（MCP 工具由 server.mjs 提供）')
+    logger.info?.('[dsh-feiyu-books] 书架插件已装载（MCP 工具由 server.mjs 提供）')
   } catch {
     // 日志失败不影响装载
   }

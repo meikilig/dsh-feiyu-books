@@ -68,22 +68,37 @@ profilePkg.dependencies = profilePkg.dependencies && typeof profilePkg.dependenc
 profilePkg.dsh = profilePkg.dsh && typeof profilePkg.dsh === 'object' ? profilePkg.dsh : {};
 profilePkg.dsh.profile = profilePkg.dsh.profile && typeof profilePkg.dsh.profile === 'object' ? profilePkg.dsh.profile : {};
 const bundles = Array.isArray(profilePkg.dsh.profile.bundles) ? profilePkg.dsh.profile.bundles : [];
-const hadBundle = bundles.includes('dsh-books');
-if (!hadBundle) bundles.push('dsh-books');
+// 迁移：如果以前装过旧名字（dsh-books），把它的 bundle 条目与 node_modules 副本清掉，
+// 否则 DSH 会找一个已经不存在的包，启动时报错。
+const LEGACY_NAMES = ['dsh-books'];
+for (const oldName of LEGACY_NAMES) {
+  const idx = bundles.indexOf(oldName);
+  if (idx >= 0) {
+    bundles.splice(idx, 1);
+    log(`[2/4] 移除旧 bundle 名：${oldName}`);
+  }
+  const oldDir = path.join(PROFILE_DIR, 'node_modules', oldName);
+  if (fs.existsSync(oldDir)) {
+    if (!dryRun) fs.rmSync(oldDir, { recursive: true, force: true });
+    log(`[3/4] 清理旧目录：${oldDir}`);
+  }
+}
+const hadBundle = bundles.includes('dsh-feiyu-books');
+if (!hadBundle) bundles.push('dsh-feiyu-books');
 profilePkg.dsh.profile.bundles = bundles;
 // 注意：不再写 link: 依赖 —— 有些机器（含本机）不允许在 node_modules 里创建
 // junction/symlink（Access denied），而 npm/pnpm 自己也未必能建。改成直接把包
 // 复制进 profile 的 node_modules（见第 3 步），这样不依赖重解析点。
-delete profilePkg.dependencies['dsh-books'];
+delete profilePkg.dependencies['dsh-feiyu-books'];
 
-log(`[2/4] profile bundles：${hadBundle ? '已包含 dsh-books' : '新增 dsh-books'}`);
+log(`[2/4] profile bundles：${hadBundle ? '已包含 dsh-feiyu-books' : '新增 dsh-feiyu-books'}`);
 if (!dryRun) fs.writeFileSync(profilePkgPath, JSON.stringify(profilePkg, null, 2) + '\n', 'utf8');
 
 // ── 3. 把包装进 profile/node_modules ─────────────────────────
 // 只复制 DSH 装载需要的三样（package.json / index.js / cordis.patch.yml）；
 // server.mjs 由 cordis.patch.yml 里的**绝对路径**直接指向源目录，所以源目录
 // 更新代码后不需要重新复制（除非改了 patch 本身）。
-const NM_DIR = path.join(PROFILE_DIR, 'node_modules', 'dsh-books');
+const NM_DIR = path.join(PROFILE_DIR, 'node_modules', 'dsh-feiyu-books');
 const COPY_FILES = ['package.json', 'index.js', 'cordis.patch.yml'];
 log(`[3/4] 复制插件到 ${NM_DIR}`);
 if (!dryRun) {
@@ -133,5 +148,5 @@ if (missing.length) {
 }
 log('');
 log('然后重启一次 DSH，书架工具就会以 mcp__books__* 出现。');
-log('验证：让她说一句"书架里有什么书"，或看 DSH 日志里有没有 [dsh-books] 装载行。');
+log('验证：让她说一句"书架里有什么书"，或看 DSH 日志里有没有 [dsh-feiyu-books] 装载行。');
 log('────────────────────────────────────────────');

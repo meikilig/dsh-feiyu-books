@@ -1,5 +1,5 @@
 {
-  "name": "dsh-books",
+  "name": "dsh-feiyu-books",
   "version": "1.0.0",
   "description": "给 DSH agent 的只读书架：按章读电子书、全文搜索、带总开关（MCP 工具）",
   "type": "module",
