@@ -1,4 +1,4 @@
-# dsh-books
+# dsh-feiyu-books
 
 给 [DeepSeek Harness](https://github.com/anywhere-labs) agent 的**只读书架**：把电子书拆成「一章一个 txt」，agent 就能按章阅读、按词检索，而不是把整本书塞进上下文。
 
@@ -24,8 +24,8 @@
 ## 安装
 
 ```bash
-git clone <repo> dsh-books
-cd dsh-books
+git clone <repo> dsh-feiyu-books
+cd dsh-feiyu-books
 npm install --omit=dev          # 只有两个依赖：MCP SDK 与 zod
 node scripts/install.mjs        # 写入本机绝对路径 + 注册到 profile
 ```
@@ -33,7 +33,7 @@ node scripts/install.mjs        # 写入本机绝对路径 + 注册到 profile
 `install.mjs` 做的事（幂等，可以重复跑）：
 
 1. 把 `cordis.patch.yml` 里的 `__NODE__` / `__SERVER__` 占位符换成本机绝对路径；
-2. 在 `~/.dsh/profiles/<profile>/package.json` 里加上 `dsh-books` 依赖（`link:`）与 bundle；
+2. 在 `~/.dsh/profiles/<profile>/package.json` 里加上 `dsh-feiyu-books` 依赖（`link:`）与 bundle；
 3. 摘掉 profile patch 里**旧的** `mcp-books` 条目（避免同一个 server 注册两次）。
 
 指定别的 profile：
@@ -115,7 +115,7 @@ node scripts/selftest.mjs
 
 ## 卸载
 
-1. 从 `~/.dsh/profiles/<profile>/package.json` 的 `dsh.profile.bundles` 里删掉 `dsh-books`；
+1. 从 `~/.dsh/profiles/<profile>/package.json` 的 `dsh.profile.bundles` 里删掉 `dsh-feiyu-books`；
 2. 删掉 `cordis.patch.yml` 里 `id: mcp-books` 的 `- insert:` 块；
 3. 重启 DSH。
 
